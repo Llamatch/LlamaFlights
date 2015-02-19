@@ -75,7 +75,7 @@ public class ConsultaMapas
 
 	public static void consultarMultiplesAeropuertos(String[] latlon) throws MalformedURLException, IOException//lat lon en formato lat:lon
 	{
-		String direccion = "http://maps.googleapis.com/maps/api/staticmap?size=520x520";
+		String direccion = "http://maps.googleapis.com/maps/api/staticmap?size=520x520&maptype=roadmap";
 		char c = 'A';
 		
 		//http://maps.googleapis.com/maps/api/staticmap?size=520x520&markers=color:black%7Clabel:A%7C63.259591,-144.667969&markers=size:mid%7Ccolor:brown%7Clabel:B%7C62.107733,-145.541936
@@ -113,7 +113,7 @@ public class ConsultaMapas
 		ventanis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		String[] latlon = new String[]{63.259591+":"+-144.667969,58.107733+":"+-120.541936};
 		try {
-			//consultarMapaAeropuertoUnico(63.259591+"",-144.667969+"");
+//			consultarMapaAeropuertoUnico(63.259591+"",-144.667969+"");
 			consultarMultiplesAeropuertos(latlon);
 			ventanis.add(label);
 		} catch (IOException e) {
@@ -122,7 +122,6 @@ public class ConsultaMapas
 		}
 
 		ventanis.setVisible(true);
-
 
 	}
 
