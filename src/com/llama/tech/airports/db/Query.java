@@ -67,7 +67,7 @@ public final class Query
 	}
 	
 	
-	public String[] get_airportList() throws SQLException
+	public void get_airportList() throws SQLException
 	{
 		
 		Statement stmt = conn.createStatement();
@@ -81,6 +81,29 @@ public final class Query
 			count++;
 		}
 		System.out.println(count);
+		stmt.close();
+	}
+	
+	public void get_flightsPerDay(String year, String month, String day) throws SQLException
+	{
+		Statement stmt = conn.createStatement();
+		String sql = String.format("SELECT carrier, num_vuelo, origen, destino, distancia FROM vuelos WHERE año = '%s' AND mes = '%s' AND dia = '%s';", year, month, day);
+		ResultSet rs = stmt.executeQuery(sql);
+		int count = 0;
+		while(rs.next())
+		{
+			System.out.println(rs.getString(1)+rs.getString(2));
+			count++;
+		}
+		System.out.println(count);
+		stmt.close();
+	}
+	
+	public void close_connection() throws SQLException
+	{
+		System.out.print("Closing connection...");
+		conn.close();
+		System.out.print("Done!\n");
 	}
 	
 	
@@ -89,7 +112,9 @@ public final class Query
 	public static void main(String[] args) 
 	{
 		try {
-			new Query();
+			Query q = new Query();
+			q.get_flightsPerDay("2006", "2", "22");
+			q.close_connection();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
