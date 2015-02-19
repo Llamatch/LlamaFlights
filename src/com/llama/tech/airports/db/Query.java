@@ -54,16 +54,6 @@ public final class Query
 		System.out.println("Connecting to: "+IP+":"+PORT);
 		conn = DriverManager.getConnection(URL, USER, PASS);
 		System.out.println("Opened database successfully");
-		Statement stmt = conn.createStatement();
-		String sql = "select origen,año,mes,dia,destino,num_vuelo,carrier from vuelos where año = '2007' and mes = '4' and dia = '28' and origen ='IAH'";
-		ResultSet rs = stmt.executeQuery(sql);
-		int count = 0;
-		while(rs.next())
-		{
-			System.out.println(rs.getString(1)+":"+rs.getString(7)+rs.getString(6));
-			count++;
-		}
-		System.out.println(count);
 		//select column_name from information_schema.columns where table_name='table'
 		//select año,mes,dia,origen,destino,num_vuelo from vuelos where año = "2007" and mes = "4"
         //
@@ -74,7 +64,23 @@ public final class Query
 //	   ON  Book.isbn = Book_author.isbn
 //	 GROUP BY Book.title;
 		//
-
+	}
+	
+	
+	public String[] get_airportList() throws SQLException
+	{
+		
+		Statement stmt = conn.createStatement();
+		String sql = "SELECT DISTINCT origen FROM vuelos;";
+		//String sql = "select origen,año,mes,dia,destino,num_vuelo,carrier from vuelos where año = '2007' and mes = '4' and dia = '28' and origen ='IAH'";
+		ResultSet rs = stmt.executeQuery(sql);
+		int count = 0;
+		while(rs.next())
+		{
+			System.out.println(rs.getString(1));
+			count++;
+		}
+		System.out.println(count);
 	}
 	
 	

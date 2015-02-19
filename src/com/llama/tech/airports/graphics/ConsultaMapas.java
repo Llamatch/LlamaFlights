@@ -1,4 +1,4 @@
-package com.llama.tech.airports.maps;
+package com.llama.tech.airports.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -26,7 +26,7 @@ public class ConsultaMapas
 
 	}
 
-	private String darColorAleatorio()
+	private static String darColorAleatorio()
 	{
 		//		{black, brown, green, purple, yellow, blue, gray, orange, red, white}.
 
@@ -73,16 +73,16 @@ public class ConsultaMapas
 
 	}
 
-	public void consultarMultiplesAeropuertos(String[] latlon)//lat lon en formato lat:lon
+	public static void consultarMultiplesAeropuertos(String[] latlon) throws MalformedURLException, IOException//lat lon en formato lat:lon
 	{
-		String direccion = "http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=520x520\\&markers=";
+		String direccion = "http://maps.googleapis.com/maps/api/staticmap?size=520x520";
 		char c = 'A';
-		//			&markers=color:blue%7Clabel:S%7C62.107733,-145.541936&markers=size:tiny%7Ccolor:green%7CDelta+Junction,AK\
-		//			&markers=size:mid%7Ccolor:0xFFFF00%7Clabel:C%7CTok,AK&sensor=false" />
+		
+		//http://maps.googleapis.com/maps/api/staticmap?size=520x520&markers=color:black%7Clabel:A%7C63.259591,-144.667969&markers=size:mid%7Ccolor:brown%7Clabel:B%7C62.107733,-145.541936
 		for(String s : latlon)
 		{
 			StringBuilder ss = new StringBuilder();
-			ss.append("color:");
+			ss.append("&markers=color:");
 			ss.append(darColorAleatorio());
 			ss.append("%7Clabel:");
 			ss.append(c);
@@ -90,11 +90,13 @@ public class ConsultaMapas
 			ss.append(s.split(":")[0]);
 			ss.append(",");
 			ss.append(s.split(":")[1]);
-			ss.append("&markers=size:mid&sensor=false%7C");
 			direccion+=ss.toString();
 			c++;
 		}
 		System.out.println(direccion);
+		BufferedImage imagen = ImageIO.read(new URL(direccion));
+		ImageIcon ic = new ImageIcon(imagen);
+		label = new JLabel(ic);
 		//		http://maps.googleapis.com/maps/api/staticmap?size=512x512&maptype=roadmap\
 		//			&markers=size:mid%7Ccolor:red%7CSan+Francisco,CA%7COakland,CA%7CSan+Jose,CA&sensor=false
 		//		
@@ -109,8 +111,10 @@ public class ConsultaMapas
 		ventanis.setLayout(new BorderLayout());
 		ventanis.setSize(new Dimension(520,520));
 		ventanis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		String[] latlon = new String[]{63.259591+":"+-144.667969,58.107733+":"+-120.541936};
 		try {
-			consultarMapaAeropuertoUnico(63.259591+"",-144.667969+"");
+			//consultarMapaAeropuertoUnico(63.259591+"",-144.667969+"");
+			consultarMultiplesAeropuertos(latlon);
 			ventanis.add(label);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
