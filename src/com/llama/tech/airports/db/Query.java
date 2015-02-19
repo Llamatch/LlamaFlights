@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.llama.tech.utils.list.Lista;
+
 public final class Query 
 {
 	private final static String IP = "157.253.236.58";
@@ -86,6 +88,7 @@ public final class Query
 	
 	public void get_flightsPerDay(String year, String month, String day) throws SQLException
 	{
+		Lista<String> l;
 		Statement stmt = conn.createStatement();
 		String sql = String.format("SELECT carrier, num_vuelo, origen, destino, distancia FROM vuelos WHERE año = '%s' AND mes = '%s' AND dia = '%s';", year, month, day);
 		ResultSet rs = stmt.executeQuery(sql);
