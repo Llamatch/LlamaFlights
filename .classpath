@@ -11,6 +11,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/LlamaAirports/lib/junit-4.12-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/llamautils-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/llamautils-1.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
