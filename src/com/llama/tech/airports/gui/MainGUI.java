@@ -39,8 +39,10 @@ public class MainGUI extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public MainGUI() {
+	public MainGUI() 
+	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("LlamaFly");
 		setBounds(100, 100, 708, 496);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

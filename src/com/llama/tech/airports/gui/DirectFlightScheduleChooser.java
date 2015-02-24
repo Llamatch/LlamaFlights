@@ -23,6 +23,7 @@ public class DirectFlightScheduleChooser extends JDialog {
 	private JTextField textField_1;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton;
+	private JDateChooser dateChooser;
 
 	/**
 	 * Create the dialog.
@@ -73,7 +74,7 @@ public class DirectFlightScheduleChooser extends JDialog {
 		JLabel lblNewLabel_2 = new JLabel("Escoja una Fecha:");
 		panel.add(lblNewLabel_2, "2, 6, left, default");
 		
-		JDateChooser dateChooser = new JDateChooser();
+		dateChooser = new JDateChooser();
 		panel.add(dateChooser, "6, 6, fill, default");
 		
 		btnNewButton = new JButton("Consultar");

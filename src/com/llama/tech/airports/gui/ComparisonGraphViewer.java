@@ -13,6 +13,8 @@ import javax.swing.border.EtchedBorder;
 public class ComparisonGraphViewer extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
+	private JLabel lblNewLabel;
+	private JButton btnNewButton;
 
 	/**
 	 * Create the dialog.
@@ -26,13 +28,13 @@ public class ComparisonGraphViewer extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblNewLabel = new JLabel("");
+			lblNewLabel = new JLabel("");
 			lblNewLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			lblNewLabel.setBounds(10, 10, 502, 263);
 			contentPanel.add(lblNewLabel);
 		}
 		
-		JButton btnNewButton = new JButton("Cerrar");
+		btnNewButton = new JButton("Cerrar");
 		btnNewButton.setBounds(202, 285, 117, 25);
 		contentPanel.add(btnNewButton);
 	}

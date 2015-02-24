@@ -19,14 +19,12 @@ import com.toedter.calendar.JDateChooser;
 public class FlightSearch extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
 	private JFormattedTextField formattedTextField_1;
 	private JFormattedTextField formattedTextField_2;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
+	private JFormattedTextField formattedTextField;
+	private JDateChooser dateChooser;
 
 	/**
 	 * Create the dialog.
@@ -59,31 +57,31 @@ public class FlightSearch extends JDialog {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,}));
 			{
-				lblNewLabel = new JLabel("Código Aeropuerto:");
+				JLabel lblNewLabel = new JLabel("Código Aeropuerto:");
 				panel.add(lblNewLabel, "2, 2, right, default");
 			}
 			{
-				JFormattedTextField formattedTextField = new JFormattedTextField();
+				formattedTextField = new JFormattedTextField();
 				panel.add(formattedTextField, "4, 2, fill, default");
 			}
 			{
-				lblNewLabel_1 = new JLabel("Fecha:");
-				panel.add(lblNewLabel_1, "2, 4");
+				JLabel lblNewLabel = new JLabel("Fecha:");
+				panel.add(lblNewLabel, "2, 4");
 			}
 			
-			JDateChooser dateChooser = new JDateChooser();
+			dateChooser = new JDateChooser();
 			panel.add(dateChooser, "4, 4, fill, default");
 			{
-				lblNewLabel_2 = new JLabel("Hora Inicio:");
-				panel.add(lblNewLabel_2, "2, 6");
+				JLabel lblNewLabel = new JLabel("Hora Inicio:");
+				panel.add(lblNewLabel, "2, 6");
 			}
 			{
 				formattedTextField_1 = new JFormattedTextField();
 				panel.add(formattedTextField_1, "4, 6, fill, default");
 			}
 			{
-				lblNewLabel_3 = new JLabel("Hora Fin:");
-				panel.add(lblNewLabel_3, "2, 8");
+				JLabel lblNewLabel = new JLabel("Hora Fin:");
+				panel.add(lblNewLabel, "2, 8");
 			}
 			{
 				formattedTextField_2 = new JFormattedTextField();
