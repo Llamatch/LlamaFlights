@@ -21,14 +21,43 @@ import com.llama.tech.utils.list.Lista;
 import com.llama.tech.utils.list.LlamaArrayList;
 import com.llama.tech.utils.list.LlamaIterator;
 
+/**
+ * Esta es la clase principal del mundo
+ */
 public class SistemaConsulta implements ISistemaConsulta{
 
+	/**
+	 * Este es el diccionario donde se guardan las areolinas del sistema
+	 */
 	private  Dictionary<String,Aerolinea> aerolineas;
+	
+	/**
+	 * Este es el diccionario donde se guardan los aeropuertos del sistema
+	 */
 	private Dictionary<String, Aeropuerto> aeropuertos;
+	
+	/**
+	 * Esta es la instancia de la clase que contiene la conexion a la base de datos
+	 */
 	private Query query;
+	
+	/**
+	 * Este es el entero que representa el año de consluta
+	 */
 	private int anho;
+
+	/**
+	 * Este es el entero que representa el mes de consluta
+	 */
 	private int mes;
 
+	/**
+	 * Este es el constructor de la clase
+	 * @param pmes mes en el que se quiere hacer la consulta
+	 * @param panho año en el que se quiere hacer la consulta
+	 * @throws ClassNotFoundException Si hay problemas conectandose a la clase del database
+	 * @throws SQLException si hay problemas conectandose al database
+	 */
 	public SistemaConsulta(int pmes, int panho) throws ClassNotFoundException, SQLException
 	{
 		aerolineas = new LlamaDict<String, Aerolinea>(1500); 
@@ -47,7 +76,12 @@ public class SistemaConsulta implements ISistemaConsulta{
 	}
 
 
-	public void cargarVuelos() throws IOException, UnhashableTypeException, SQLException {
+	/**
+	 * Carga la información de los vuelos
+	 * @throws UnhashableTypeException si se intenta añadir un valor inválido a una tabla de hash
+	 * @throws SQLException si hay problemas conectandose a la database
+	 */
+	private void cargarVuelos() throws UnhashableTypeException, SQLException {
 
 
 		Lista<String> info = query.get_flightsPerMonth(anho+"", mes+"");
@@ -99,6 +133,11 @@ public class SistemaConsulta implements ISistemaConsulta{
 	}
 
 
+	/**
+	 * Carga la información de los aeropuertos desde los archivos dados
+	 * @throws IOException Si hay problemas leyendo los archivos
+	 * @throws UnhashableTypeException si s eintenta agregar un valor inválido a un atabla de hash
+	 */
 	private void cargarAeropuertos() throws IOException, UnhashableTypeException {
 
 		File f = new File("./data/airports.csv");
@@ -226,6 +265,11 @@ public class SistemaConsulta implements ISistemaConsulta{
 	}
 
 
+	/**
+	 * Carga las aerolineas desde el archivo dado
+	 * @throws IOException Si hay problemas leyendo el archivo
+	 * @throws UnhashableTypeException Si se intenta agregar un valor inválido a una tabla de hash
+	 */
 	private void cargarAerolineas() throws IOException, UnhashableTypeException {
 
 		File f = new File("./data/airlines.csv");
@@ -252,7 +296,14 @@ public class SistemaConsulta implements ISistemaConsulta{
 	public void cambiarTemporada(int panho, int pmes) throws IOException, UnhashableTypeException, SQLException 
 	{
 		mes = pmes;
-		anho=panho;
+		anho = panho;
+		LlamaIterator<Aeropuerto> it = aeropuertos.getValues();
+		while(it.hasNext())
+			it.next().clarVuelos();
+		
+		LlamaIterator<Aerolinea> ir = aerolineas.getValues();
+		while(ir.hasNext())
+			it.next().clarVuelos();
 		cargarVuelos();
 
 	}
