@@ -5,8 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 
+import com.llama.tech.airports.backbone.Aeropuerto;
 import com.llama.tech.utils.list.Lista;
+import com.llama.tech.utils.list.LlamaArrayList;
 
 public final class Query 
 {
@@ -15,7 +18,6 @@ public final class Query
 	private final static String USER = "estudiante";
 	private final static String PASS = "EstructurasDatos2015";
 	private final static String DB = "estructurasVuelos";
-	//jdbc:postgresql://157.253.236.58:5432/estructurasVuelos
 	private final static String URL = "jdbc:postgresql://"+IP+":"+PORT+"/"+DB;
 	private Connection conn;
 	
@@ -90,16 +92,78 @@ public final class Query
 	{
 		Lista<String> l;
 		Statement stmt = conn.createStatement();
-		String sql = String.format("SELECT carrier, num_vuelo, origen, destino, distancia FROM vuelos WHERE año = '%s' AND mes = '%s' AND dia = '%s';", year, month, day);
+		String sql = String.format("SELECT carrier, num_vuelo, origen, destino, distancia,\"DepTime\" FROM vuelos WHERE año = '%s' AND mes = '%s' AND dia = '%s';", year, month, day);
 		ResultSet rs = stmt.executeQuery(sql);
 		int count = 0;
 		while(rs.next())
 		{
-			System.out.println(rs.getString(1)+rs.getString(2));
+			System.out.println(rs.getString(1)+rs.getString(2)+":"+rs.getString(6));
 			count++;
 		}
 		System.out.println(count);
 		stmt.close();
+	}
+	
+	public Lista<String> get_flightsPerMonth(String year, String month) throws SQLException
+	{
+
+		Lista<String> l = new LlamaArrayList<String>(2000);
+		Statement stmt = conn.createStatement();
+//		String sql = String.format("SELECT dia, "
+//				+ "carrier, num_vuelo, origen, destino, distancia,'DepTime', "
+//				+ "cancelado FROM vuelos WHERE año = '%s' AND mes = '%s';", year, month);
+		
+		String sql = String.format("SELECT dia, \"DepTime\", \"CRSDepTime\", \"ArrTime\", \"CRSArrTime\", "
+				+ "carrier, num_vuelo, \"TailNum\", origen, destino, distancia, "
+				+ "cancelado FROM vuelos WHERE año = '%s' AND mes = '%s';", year, month);
+		
+//		String sql = String.format("SELECT 1dia, 2DepTime, 3CRSDepTime, 4ArrTime, 5CRSArrTime, "
+//		+ "6carrier, 7num_vuelo, 8TailNum, 9origen, 10destino, 11distancia, "
+//		+ "12cancelado, 13ArrTime FROM vuelos WHERE año = '%s' AND mes = '%s';", year, month);
+		
+		//Vuelo(int numeroVuelo, String aerolinea, Calendar fecha, Calendar horaDespegueProg, 
+//		Calendar horaDespegueReal, Calendar horaAterrizajeProg, Calendar horaAterrizajeReal,
+		//Aeropuerto origen, Aeropuerto destino, String avion, int distancia, boolean pcancelado) 
+		
+		ResultSet rs = stmt.executeQuery(sql);
+		int count = 0;
+		while(rs.next())
+		{
+//			System.out.println(rs.getString(1)+rs.getString(2)+":"+rs.getString(6));
+			StringBuilder s = new StringBuilder();
+			s.append(rs.getString(7));
+			s.append(":");
+			s.append(rs.getString(6));
+			s.append(":");
+			//dia,mes,año
+			s.append(rs.getString(1)+","+month+","+year);
+			s.append(":");
+			s.append(rs.getString(3));
+			s.append(":");
+			s.append(rs.getString(2));
+			s.append(":");
+			s.append(rs.getString(5));
+			s.append(":");
+			s.append(rs.getString(4));
+			s.append(":");
+			s.append(rs.getString(9));
+			s.append(":");
+			s.append(rs.getString(10));
+			s.append(":");
+			s.append(rs.getString(8));
+			s.append(":");
+			s.append(rs.getString(11));
+			s.append(":");
+			s.append(rs.getString(12));
+			
+			System.out.println(s.toString());
+			l.addAlFinal(s.toString());
+			count++;
+		}
+		System.out.println(count);
+		stmt.close();
+		
+		return l;
 	}
 	
 	public void close_connection() throws SQLException
@@ -111,12 +175,12 @@ public final class Query
 	
 	
 	
-	
 	public static void main(String[] args) 
 	{
 		try {
 			Query q = new Query();
-			q.get_flightsPerDay("2006", "2", "22");
+			q.get_flightsPerMonth("2006", "2");
+//			q.get_flightsPerDay(2007+"", 11+"", 22+"");
 			q.close_connection();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block

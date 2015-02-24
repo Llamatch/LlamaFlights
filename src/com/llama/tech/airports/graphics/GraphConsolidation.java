@@ -41,30 +41,5 @@ public class GraphConsolidation
 	    
 	    return new ImageIcon(image);
 	}
-	
-	
-	public static void main(String... args)
-	{
-		JFrame ventana = new JFrame();
-		ventana.setLayout(new BorderLayout());
-		ventana.setSize(new Dimension(650,490));
-		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		String[] codes = {"BRA", "VNM", "IDN", "COL", "ETH"}; 
-		Double[] proportions = {33.1, 15.2, 6.3, 5.9, 5.0};
-		
-		ImageIcon image = buildGraph(codes, proportions, "2011 Top twenty green coffee producers");
-		JLabel label = new JLabel(image);
-		
-		ventana.add(label);
-		ventana.setVisible(true);
-		
-		
-//		 Brazil 	2,609,040 	43,484 	33.1%
-//		 2 	 Vietnam 	1,200,000 	20,000 	15.2%
-//		 3 	 Indonesia[note 1] 	495,000 	8,250 	6.3%
-//		 4 	 Colombia 	468,000 	7,800 	5.9%
-//		 5 	 Ethiopia[note 1] 	390,000 	6,500 	5.0%
-		
-	}
+
 }

@@ -18,11 +18,11 @@ public class ConsultaMapas
 	private static JLabel label;
 	private static int posColor;
 
-	public static void consultarMapaAeropuertoUnico(String lat, String lon) throws MalformedURLException, IOException
+	public static ImageIcon consultarMapaAeropuertoUnico(String lat, String lon) throws MalformedURLException, IOException
 	{
 		BufferedImage imagen = ImageIO.read(new URL("http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=512x512&maptype=roadmap\\&markers=size:mid%7Ccolor:red%7C"+lat+","+lon+"&sensor=false"));
 		ImageIcon ic = new ImageIcon(imagen);
-		label = new JLabel(ic);
+		return ic;
 
 	}
 
@@ -73,7 +73,7 @@ public class ConsultaMapas
 
 	}
 
-	public static void consultarMultiplesAeropuertos(String[] latlon) throws MalformedURLException, IOException//lat lon en formato lat:lon
+	public static ImageIcon consultarMultiplesAeropuertos(String[] latlon) throws MalformedURLException, IOException//lat lon en formato lat:lon
 	{
 		String direccion = "http://maps.googleapis.com/maps/api/staticmap?size=520x520&maptype=roadmap";
 		char c = 'A';
@@ -96,7 +96,7 @@ public class ConsultaMapas
 		System.out.println(direccion);
 		BufferedImage imagen = ImageIO.read(new URL(direccion));
 		ImageIcon ic = new ImageIcon(imagen);
-		label = new JLabel(ic);
+		return ic;
 		//		http://maps.googleapis.com/maps/api/staticmap?size=512x512&maptype=roadmap\
 		//			&markers=size:mid%7Ccolor:red%7CSan+Francisco,CA%7COakland,CA%7CSan+Jose,CA&sensor=false
 		//		
