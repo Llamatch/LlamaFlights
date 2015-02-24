@@ -93,4 +93,9 @@ public class ImageContent
          
          return null;
      }
+     
+     public static String find_planeImg(String reg)
+     {
+    	 return "";
+     }
 }

@@ -92,12 +92,12 @@ public final class Query
 	{
 		Lista<String> l;
 		Statement stmt = conn.createStatement();
-		String sql = String.format("SELECT carrier, num_vuelo, origen, destino, distancia,\"DepTime\" FROM vuelos WHERE año = '%s' AND mes = '%s' AND dia = '%s';", year, month, day);
+		String sql = String.format("SELECT carrier, num_vuelo, origen, destino, distancia,\"DepTime\", \"TailNum\" FROM vuelos WHERE año = '%s' AND mes = '%s' AND dia = '%s' AND carrier = 'AA';", year, month, day);
 		ResultSet rs = stmt.executeQuery(sql);
 		int count = 0;
 		while(rs.next())
 		{
-			System.out.println(rs.getString(1)+rs.getString(2)+":"+rs.getString(6));
+			System.out.println(rs.getString(1)+rs.getString(2)+":"+rs.getString(6)+"("+rs.getString(7)+")");
 			count++;
 		}
 		System.out.println(count);
@@ -174,13 +174,12 @@ public final class Query
 	}
 	
 	
-	
 	public static void main(String[] args) 
 	{
 		try {
 			Query q = new Query();
-			q.get_flightsPerMonth("2006", "2");
-//			q.get_flightsPerDay(2007+"", 11+"", 22+"");
+			//q.get_flightsPerMonth("2006", "2");
+			q.get_flightsPerDay(2007+"", 11+"", 22+"");
 			q.close_connection();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
