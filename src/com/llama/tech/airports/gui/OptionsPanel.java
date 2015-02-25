@@ -6,22 +6,27 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 
 public class OptionsPanel extends JPanel {
-	private JButton btnNewButton;
+	private JButton btnVuelosDirectos;
 	private JButton btnCompararTrficoDe;
 	private JButton btnBuscarAeropuertosPor;
 	private JButton btnBuscarVuelosPor;
 	private JButton btnCambiarPeriodo;
+	private MainGUI main;
 
 	/**
 	 * Create the panel.
+	 * @param mainGUI 
 	 */
-	public OptionsPanel() {
+	public OptionsPanel(MainGUI mainGUI) 
+	{
 		setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Opciones", TitledBorder.RIGHT, TitledBorder.TOP, null, null));
 		setLayout(null);
 		
-		btnNewButton = new JButton("Consultar vuelos directos");
-		btnNewButton.setBounds(33, 38, 270, 25);
-		add(btnNewButton);
+		main = mainGUI;
+		
+		btnVuelosDirectos = new JButton("Consultar vuelos directos");
+		btnVuelosDirectos.setBounds(33, 38, 270, 25);
+		add(btnVuelosDirectos);
 		
 		btnCompararTrficoDe = new JButton("Comparar tráfico de areopuertos");
 		btnCompararTrficoDe.setBounds(33, 75, 270, 25);

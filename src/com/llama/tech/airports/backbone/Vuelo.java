@@ -18,7 +18,7 @@ public class Vuelo {
 	/**
 	 * Este atributo representa el codigo de la areolinea del vuelo
 	 */
-	private String aerolinea;
+	private Aerolinea aerolinea;
 	
 	/**
 	 * Este atributo representa el codigo del vuelo
@@ -90,14 +90,14 @@ public class Vuelo {
 	 * @param distancia
 	 * @param pcancelado
 	 */
-	public Vuelo(int numeroVuelo, String aerolinea, LocalDate fecha, String horaDespegueProg, LocalDateTime horaDespegueReal,
+	public Vuelo(int numeroVuelo, Aerolinea aerolinea, LocalDate fecha, String horaDespegueProg, LocalDateTime horaDespegueReal,
 			String horaAterrizajeProg, LocalDateTime horaAterrizajeReal,Aeropuerto origen, Aeropuerto destino, String avion, int distancia, boolean pcancelado) 
 	{
 		
 		//solo se necesita compara hora real. Programada -> String 
 		this.numeroVuelo = numeroVuelo;
 		this.aerolinea = aerolinea;
-		codigo = aerolinea+numeroVuelo;;
+		codigo = aerolinea.getCodigo()+numeroVuelo;;
 		this.fecha = fecha;
 		this.horaDespegueProg = horaDespegueProg;
 		this.horaDespegueReal = horaDespegueReal;
@@ -124,7 +124,7 @@ public class Vuelo {
 	 * Retorna la aerolinea del vuelo
 	 * @return codigo de la aerolinea
 	 */
-	public String getAerolinea() {
+	public Aerolinea getAerolinea() {
 		return aerolinea;
 	}
 
@@ -209,5 +209,11 @@ public class Vuelo {
 	public int getDistancia() {
 		return distancia;
 	}	
+	
+	@Override
+	public String toString()
+	{
+		return codigo + horaDespegueReal.toString();
+	}
 
 }

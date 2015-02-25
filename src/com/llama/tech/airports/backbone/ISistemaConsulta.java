@@ -88,6 +88,13 @@ public interface ISistemaConsulta
 	
 	/**
 	 * Cierra la conexión con la base de datos.
+	 * @throws SQLException Si ocurre un error al intentar cerrar la conexión con la base de datos.
 	 */
-	public void cerrarInstancia();
+	public void cerrarInstancia() throws SQLException;
+	
+	/**
+	 * Retorna el número total de vuelos cargados para una temporada
+	 * @return El número total de vuelos. 
+	 */
+	public int getTotalVuelos();
 }

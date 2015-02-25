@@ -50,6 +50,11 @@ public class SistemaConsulta implements ISistemaConsulta{
 	 * Este es el entero que representa el mes de consluta
 	 */
 	private int mes;
+	
+	/**
+	 * Este es el total de vuelos en el sistema
+	 */
+	private int totalVuelos;
 
 	/**
 	 * Este es el constructor de la clase
@@ -57,14 +62,18 @@ public class SistemaConsulta implements ISistemaConsulta{
 	 * @param panho año en el que se quiere hacer la consulta
 	 * @throws ClassNotFoundException Si hay problemas conectandose a la clase del database
 	 * @throws SQLException si hay problemas conectandose al database
+	 * @throws UnhashableTypeException 
+	 * @throws IOException 
 	 */
-	public SistemaConsulta(int pmes, int panho) throws ClassNotFoundException, SQLException
+	public SistemaConsulta(int pmes, int panho) throws ClassNotFoundException, SQLException, IOException, UnhashableTypeException
 	{
 		aerolineas = new LlamaDict<String, Aerolinea>(1500); 
 		aeropuertos = new LlamaDict<String, Aeropuerto>(2000);
 		query = new Query();
 		mes=pmes;
 		anho=panho;
+		totalVuelos=0;
+		cargar();
 	}
 
 	@Override
@@ -107,6 +116,10 @@ public class SistemaConsulta implements ISistemaConsulta{
 				p[4] = "0"+p[4];
 			if(p[6].length()==3)
 				p[6]="0"+p[6];
+			if(p[3].length()==3)
+				p[3]="0"+p[3];
+			if(p[4].length()==3)
+				p[4]="0"+p[4];
 
 			int horDesReal=Integer.parseInt(p[4].substring(0, 1));
 			int minDesReal=Integer.parseInt(p[4].substring(2, 3));
@@ -122,8 +135,9 @@ public class SistemaConsulta implements ISistemaConsulta{
 
 			boolean cancelado = p[11].equals("0")?false:true;
 
-			Vuelo v = new Vuelo(Integer.parseInt(p[0]), ar.getCodigo(), fecha, p[3], horaDespegueReal, p[5], horaAterrizajeReal, origen, destino, p[9], Integer.parseInt(p[10]), cancelado);
-
+			Vuelo v = new Vuelo(Integer.parseInt(p[0]), ar, fecha, p[3], horaDespegueReal, p[5], horaAterrizajeReal, origen, destino, p[9], Integer.parseInt(p[10]), cancelado);
+			totalVuelos++;
+			
 			ar.addVuelo(v);
 			destino.addVuelo(v);
 
@@ -144,10 +158,13 @@ public class SistemaConsulta implements ISistemaConsulta{
 		FileReader fr = new FileReader(f);
 		BufferedReader br = new BufferedReader(fr);
 
+		br.readLine();
 		for(String line = br.readLine();line!=null;line=br.readLine())
 		{
 			//"iata","airport","city","state","country","lat","long"
+			System.out.println(line);
 			String[] info= line.split(",");
+			System.out.println(info[4]);
 			Aeropuerto ar = new Aeropuerto(info[0],Double.parseDouble(info[5]),Double.parseDouble(info[6]),info[1],info[2],info[4],info[3]);
 			aeropuertos.addEntry(info[0], ar);
 
@@ -160,6 +177,7 @@ public class SistemaConsulta implements ISistemaConsulta{
 		fr = new FileReader(f);
 		br = new BufferedReader(fr);
 
+		br.readLine();
 		for(String line = br.readLine();line!=null;line=br.readLine())
 		{
 			//			locationID;Latitude;Longitud
@@ -272,7 +290,7 @@ public class SistemaConsulta implements ISistemaConsulta{
 	 */
 	private void cargarAerolineas() throws IOException, UnhashableTypeException {
 
-		File f = new File("./data/airlines.csv");
+		File f = new File("./data/airlinesIATA.csv");
 		FileReader fr = new FileReader(f);
 		BufferedReader br = new BufferedReader(fr);
 
@@ -295,6 +313,7 @@ public class SistemaConsulta implements ISistemaConsulta{
 	@Override
 	public void cambiarTemporada(int panho, int pmes) throws IOException, UnhashableTypeException, SQLException 
 	{
+		totalVuelos=0;
 		mes = pmes;
 		anho = panho;
 		LlamaIterator<Aeropuerto> it = aeropuertos.getValues();
@@ -309,9 +328,14 @@ public class SistemaConsulta implements ISistemaConsulta{
 	}
 
 	@Override
-	public void cerrarInstancia() {
-		// TODO Auto-generated method stub
-
+	public void cerrarInstancia() throws SQLException 
+	{
+		query.close_connection();
+	}
+	
+	public int getTotalVuelos()
+	{
+		return totalVuelos;
 	}
 
 }

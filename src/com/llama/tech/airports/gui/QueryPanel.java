@@ -30,8 +30,9 @@ public class QueryPanel extends JPanel
 
 	/**
 	 * Create the panel.
+	 * @param mainGUI 
 	 */
-	public QueryPanel() {
+	public QueryPanel(MainGUI mainGUI) {
 		setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Consultas", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(51, 51, 51)));
 		setLayout(null);
 		
