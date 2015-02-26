@@ -29,6 +29,7 @@ import com.llama.tech.utils.list.Lista;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import java.awt.Dimension;
 
 public class FlightInformation extends JDialog implements ActionListener, ItemListener
 {
@@ -55,9 +56,13 @@ public class FlightInformation extends JDialog implements ActionListener, ItemLi
 	 */
 	public FlightInformation() 
 	{
+		setMaximumSize(new Dimension(704, 508));
+		setMinimumSize(new Dimension(704, 508));
+		setPreferredSize(new Dimension(704, 508));
+		setSize(new Dimension(704, 508));
 		tipo = "BUSQUEDA";
         setVisible(true);
-		setBounds(100, 100, 703, 508);
+		setBounds(100, 100, 704, 508);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

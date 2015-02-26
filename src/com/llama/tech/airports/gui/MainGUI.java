@@ -282,6 +282,10 @@ public class MainGUI extends JFrame
 	{
 
 		Lista<Vuelo> lista =flightDataBase.buscarVuelosDirectos(codigoOrigen, codigoDestino,fecha);
+		for(int i = 0; i < lista.size(); i++)
+		{
+			System.out.println(lista.get(i));
+		}
 		flightInfo = new FlightInformation();
 		flightInfo.refrescarVentana(lista, "BUSQUEDA");
 		

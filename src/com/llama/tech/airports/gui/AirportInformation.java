@@ -2,6 +2,7 @@ package com.llama.tech.airports.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -30,6 +31,9 @@ import com.llama.tech.airports.graphics.ConsultaMapas;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
+import java.awt.Dialog.ModalityType;
+import java.awt.Dialog.ModalExclusionType;
+
 public class AirportInformation extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
@@ -49,6 +53,7 @@ public class AirportInformation extends JDialog implements ActionListener {
 	{
 		setTitle("Información Aeropuerto");
 		setBounds(100, 100, 613, 530);
+		setVisible(true);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -164,7 +169,10 @@ public class AirportInformation extends JDialog implements ActionListener {
 		
 		try {
 			ic = ConsultaMapas.consultarMapaAeropuertoUnico(""+a.getLatitud(), ""+a.getLongitud());
-			lblNewLabelFotoAero.setIcon(ic);
+			System.out.println(ic.getIconWidth() +":"+ic.getIconHeight());
+			lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
+			//img.getScaledInstance(, height)
+			lblNewLabel.setIcon(ic);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(this,"Hubo un error cargando el mapa");

@@ -282,10 +282,8 @@ public class SistemaConsulta implements ISistemaConsulta, Serializable{
 	@Override
 	public Lista<Vuelo> buscarVuelo(String codigo) {
 
-		Aerolinea ar = aerolineas.getValue(codigo.substring(0, 1));
-
-
-		return ar.busquedaBinariaVuelo(codigo.substring(2, codigo.length()-1));
+		Aerolinea ar = aerolineas.getValue(codigo.substring(0, 2));
+		return ar.busquedaBinariaVuelo(codigo.substring(3, codigo.length()));
 
 
 	}

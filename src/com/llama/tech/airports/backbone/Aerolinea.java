@@ -113,7 +113,7 @@ public class Aerolinea implements Serializable{
 	{
 		Lista<Vuelo> ret = new LlamaArrayList<Vuelo>(30);
 
-		//codigo son solo los dos ultimos numeros
+		//codigo son solo los trea ultimos numeros
 		int cod = Integer.parseInt(codigo);
 		int inicio =0;
 		int fin= vuelos.size()-1;
