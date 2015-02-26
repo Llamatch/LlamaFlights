@@ -22,13 +22,13 @@ public class AirportGeographicChooser extends JDialog
 {
 
 	private final JPanel contentPanel = new JPanel();
-	private JFormattedTextField formattedTextField_1;
-	private JFormattedTextField formattedTextField_2;
-	private JFormattedTextField formattedTextField_3;
-	private JFormattedTextField formattedTextField_4;
-	private JFormattedTextField formattedTextField;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
+	private JFormattedTextField textMax;
+	private JFormattedTextField lonMin;
+	private JFormattedTextField latMin;
+	private JFormattedTextField lonMax;
+	private JFormattedTextField latMax;
+	private JButton btnVisualizar;
+	private JButton btnCancelar;
 	
 	
 
@@ -62,8 +62,8 @@ public class AirportGeographicChooser extends JDialog
 				panel.add(lblNewLabel, "2, 2, right, default");
 			}
 			{
-				formattedTextField_1 = new JFormattedTextField();
-				panel.add(formattedTextField_1, "4, 2, fill, default");
+				textMax = new JFormattedTextField();
+				panel.add(textMax, "4, 2, fill, default");
 			}
 		}
 		{
@@ -96,43 +96,44 @@ public class AirportGeographicChooser extends JDialog
 				panel.add(lblNewLabel_1, "4, 2");
 			}
 			{
-				formattedTextField_2 = new JFormattedTextField();
-				panel.add(formattedTextField_2, "8, 2, fill, default");
+				lonMin = new JFormattedTextField();
+				panel.add(lonMin, "8, 2, fill, default");
 			}
 			{
 				JLabel lblNewLabel_2 = new JLabel("Latitud Mínima:");
 				panel.add(lblNewLabel_2, "4, 4, left, default");
 			}
 			{
-				formattedTextField_3 = new JFormattedTextField();
-				panel.add(formattedTextField_3, "8, 4, fill, default");
+				latMin = new JFormattedTextField();
+				panel.add(latMin, "8, 4, fill, default");
 			}
 			{
 				JLabel lblNewLabel_3 = new JLabel("Longitud Máxima:");
 				panel.add(lblNewLabel_3, "4, 6");
 			}
 			{
-				formattedTextField_4 = new JFormattedTextField();
-				panel.add(formattedTextField_4, "8, 6, fill, default");
+				lonMax = new JFormattedTextField();
+				panel.add(lonMax, "8, 6, fill, default");
 			}
 			{
 				JLabel lblNewLabel_4 = new JLabel("Latitud Máxima:");
 				panel.add(lblNewLabel_4, "4, 8");
 			}
 			{
-				formattedTextField = new JFormattedTextField();
-				panel.add(formattedTextField, "8, 8, fill, default");
+				latMax = new JFormattedTextField();
+				panel.add(latMax, "8, 8, fill, default");
 			}
 		}
 		{
-			btnNewButton = new JButton("Visualizar");
-			btnNewButton.setBounds(116, 219, 117, 25);
-			contentPanel.add(btnNewButton);
+			btnVisualizar = new JButton("Visualizar");
+			btnVisualizar.setBounds(116, 219, 117, 25);
+			contentPanel.add(btnVisualizar);
 		}
 		{
-			btnNewButton_1 = new JButton("Cancelar");
-			btnNewButton_1.setBounds(245, 219, 117, 25);
-			contentPanel.add(btnNewButton_1);
+			btnCancelar = new JButton("Cancelar");
+			btnCancelar.setBounds(245, 219, 117, 25);
+			contentPanel.add(btnCancelar);
 		}
+		
 	}
 }
