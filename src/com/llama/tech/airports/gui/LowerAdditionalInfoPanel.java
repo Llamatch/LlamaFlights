@@ -41,7 +41,7 @@ public class LowerAdditionalInfoPanel extends JPanel
 		lblTotalVuelosCargados.setBounds(338, 14, 185, 15);
 		add(lblTotalVuelosCargados);
 		
-		textField_1 = new JTextField(num);
+		textField_1 = new JTextField(num+"");
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		textField_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

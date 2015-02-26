@@ -29,6 +29,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.jsoup.Jsoup;
@@ -36,15 +38,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class ImageContent 
+public class ImageContent implements Serializable
 {	
-     public static String getWikipediaImageContent(String url, String loc) throws Exception
+     public static URL getWikipediaImageContent(String url, String loc) throws Exception
      {
     	 Element objElem = null; 
     	 Document doc = Jsoup.connect(url).get();
     	 Elements elemts = doc.select("table");
     	 boolean found = false;
-    	 String pointer = null;
     	 
          for(int i = 0; i < elemts.size() && !found; i++)
          {
@@ -71,20 +72,21 @@ public class ImageContent
             	 String ext = parts[parts.length-1];
             	 
             	 URL imgURL = new URL(uri);
-            	 try(InputStream in = new BufferedInputStream(imgURL.openStream()))
-            	 {
-            	 
-    	        	 try(OutputStream out = new BufferedOutputStream(new FileOutputStream(loc+"."+ext)))
-    	        	 {
-    	        		 for ( int i; (i = in.read()) != -1; ) 
-    	        		 {
-    	        			    out.write(i);
-    	        		 }
-    	        	 }
-            	 }
-            	 
-            	 pointer = loc+"."+ext;
-            	 return pointer;
+//            	 try(InputStream in = new BufferedInputStream(imgURL.openStream()))
+//            	 {
+//            	 
+//    	        	 try(OutputStream out = new BufferedOutputStream(new FileOutputStream(loc+"."+ext)))
+//    	        	 {
+//    	        		 for ( int i; (i = in.read()) != -1; ) 
+//    	        		 {
+//    	        			    out.write(i);
+//    	        		 }
+//    	        	 }
+//            	 }
+//            	 
+//            	 pointer = loc+"."+ext;
+//            	 return pointer;
+            	 return imgURL;
         	 }
         	 catch(Exception e)
         	 {
@@ -94,8 +96,8 @@ public class ImageContent
          return null;
      }
      
-     public static String find_planeImg(String reg)
+     public static URL find_planeImg(String reg) throws MalformedURLException
      {
-    	 return "";
+    	 return new URL("");
      }
 }

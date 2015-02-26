@@ -2,7 +2,9 @@ package com.llama.tech.airports.backbone;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -12,7 +14,7 @@ import com.llama.tech.utils.list.Lista;
 /**
  * Esta interfaz modela la clase principal del mundo
  */
-public interface ISistemaConsulta 
+public interface ISistemaConsulta extends Serializable
 {
 	/**
 	 * Este método se encarga de cargar la información al mundo dado el mes y anho de preferencia del usuario
@@ -35,7 +37,7 @@ public interface ISistemaConsulta
 	 * @param codigoDestino Codigo del aeropuerto de destino
 	 * @return Lista con los vuelos directos entre los dos aeropuertos
 	 */
-	public Lista<Vuelo> buscarVuelosDirectos (String codigoOrigen, String codigoDestino);
+	public Lista<Vuelo> buscarVuelosDirectos (String codigoOrigen, String codigoDestino, LocalDate fecha);
 	
 	/**
 	 * Busca un aeropuerto dado su codigo
@@ -56,8 +58,9 @@ public interface ISistemaConsulta
 	/**
 	 * Elimina un vuelo del sistema dado su codigo
 	 * @param codigo Codigo del vuelo a eliminar
+	 * @return 
 	 */
-	public void eliminarVuelo (String codigo);
+	public boolean eliminarVuelo (String codigo);
 	
 	/**
 	 * Devuelve una lista con máximo max aeropuertos que tienen su ubicación geográfica dentro de los límites estipulados. 
@@ -97,4 +100,11 @@ public interface ISistemaConsulta
 	 * @return El número total de vuelos. 
 	 */
 	public int getTotalVuelos();
+
+	/**
+	 * Reestablece la conexión con la base de datos.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public void reInitializeConnection() throws ClassNotFoundException, SQLException;
 }

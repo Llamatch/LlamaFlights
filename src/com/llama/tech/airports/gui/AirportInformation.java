@@ -2,31 +2,45 @@ package com.llama.tech.airports.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.llama.tech.airports.backbone.Aeropuerto;
+import com.llama.tech.airports.db.ImageContent;
+import com.llama.tech.airports.graphics.ConsultaMapas;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
-public class AirportInformation extends JDialog {
+public class AirportInformation extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblNewLabel;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField textFieldCodigoAero;
+	private JTextField textFieldNombre;
+	private JTextField textFieldCiudad;
+	private JTextField textFieldEstado;
+	private JTextField textFieldPais;
 	private JButton btnNewButton;
-	private JLabel lblNewLabel_6;
+	private JLabel lblNewLabelFotoAero;
 
 	/**
 	 * Create the dialog.
@@ -39,16 +53,18 @@ public class AirportInformation extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lblNewLabel.setBounds(10, 170, 573, 263);
 		contentPanel.add(lblNewLabel);
-		
+
 		btnNewButton = new JButton("Cerrar");
 		btnNewButton.setBounds(238, 445, 117, 25);
+		btnNewButton.addActionListener(this);
+		btnNewButton.setActionCommand("CERRAR");
 		contentPanel.add(btnNewButton);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(239, 12, 342, 146);
 		contentPanel.add(panel);
@@ -59,7 +75,7 @@ public class AirportInformation extends JDialog {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(53dlu;default):grow"),},
-			new RowSpec[] {
+				new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -72,50 +88,93 @@ public class AirportInformation extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Código Aeropuerto:");
 		panel.add(lblNewLabel_1, "4, 2, left, default");
-		
-		textField = new JTextField();
-		textField.setEditable(false);
-		panel.add(textField, "6, 2, left, default");
-		textField.setColumns(10);
-		
+
+		textFieldCodigoAero = new JTextField();
+		textFieldCodigoAero.setEditable(false);
+		panel.add(textFieldCodigoAero, "6, 2, left, default");
+		textFieldCodigoAero.setColumns(10);
+
 		JLabel lblNewLabel_2 = new JLabel("Nombre:");
 		panel.add(lblNewLabel_2, "4, 4, left, default");
-		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		panel.add(textField_1, "6, 4, left, default");
-		textField_1.setColumns(10);
-		
+
+		textFieldNombre = new JTextField();
+		textFieldNombre.setEditable(false);
+		panel.add(textFieldNombre, "6, 4, left, default");
+		textFieldNombre.setColumns(10);
+
 		JLabel lblNewLabel_3 = new JLabel("Ciudad:");
 		panel.add(lblNewLabel_3, "4, 6, left, default");
-		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		panel.add(textField_2, "6, 6, left, default");
-		textField_2.setColumns(10);
-		
+
+		textFieldCiudad = new JTextField();
+		textFieldCiudad.setEditable(false);
+		panel.add(textFieldCiudad, "6, 6, left, default");
+		textFieldCiudad.setColumns(10);
+
 		JLabel lblNewLabel_4 = new JLabel("Estado:");
 		panel.add(lblNewLabel_4, "4, 8, left, default");
-		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		panel.add(textField_3, "6, 8, left, default");
-		textField_3.setColumns(10);
-		
+
+		textFieldEstado = new JTextField();
+		textFieldEstado.setEditable(false);
+		panel.add(textFieldEstado, "6, 8, left, default");
+		textFieldEstado.setColumns(10);
+
 		JLabel lblNewLabel_5 = new JLabel("País:");
 		panel.add(lblNewLabel_5, "4, 10, left, default");
+
+		textFieldPais = new JTextField();
+		textFieldPais.setEditable(false);
+		panel.add(textFieldPais, "6, 10, left, default");
+		textFieldPais.setColumns(10);
+
+		lblNewLabelFotoAero = new JLabel("");
+		lblNewLabelFotoAero.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lblNewLabelFotoAero.setBounds(10, 12, 215, 146);
+		contentPanel.add(lblNewLabelFotoAero);
+	}
+
+	public void refrescarInfo(Aeropuerto a)
+	{
+		textFieldCodigoAero.setText(a.getCodigo());
+		textFieldCiudad.setText(a.getCiudad());
+		textFieldEstado.setText(a.getEstado());
+		textFieldNombre.setText(a.getNombre());
+		textFieldPais.setText(a.getPais());
+		ImageIcon ic;
+		BufferedImage imagen;
+//		try {
+//			imagen = ImageIO.read(ImageContent.find_planeImg(a.getNombre()));
+//			if(imagen==null)
+//			{
+//
+//				ic = new ImageIcon("./data/img/default.png");
+//			}
+//			else
+//			{
+//				ic = new ImageIcon(imagen);	
+//			}
+//			lblNewLabelFotoAero.setIcon(ic); 
+//		} catch (Exception e) {
+//			
+//			JOptionPane.showMessageDialog(this, "Hubo un error cargando las imagenes");
+//			dispose();
+//		}
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		panel.add(textField_4, "6, 10, left, default");
-		textField_4.setColumns(10);
+		try {
+			ic = ConsultaMapas.consultarMapaAeropuertoUnico(""+a.getLatitud(), ""+a.getLongitud());
+			lblNewLabelFotoAero.setIcon(ic);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this,"Hubo un error cargando el mapa");
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.equals("CERRAR"))
+			dispose();
 		
-		lblNewLabel_6 = new JLabel("");
-		lblNewLabel_6.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		lblNewLabel_6.setBounds(10, 12, 215, 146);
-		contentPanel.add(lblNewLabel_6);
 	}
 }

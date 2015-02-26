@@ -44,11 +44,11 @@ public class FlightInformation extends JDialog implements ActionListener, ItemLi
 	private JTextField textFieldFecha;
 	private JTextField textFieldHoraDespegue;
 	private JTextField textField_HoraDeAterrizaje;
+	private FlightSearch flightSearch;
 	private JComboBox<Vuelo> comboBoxVuelosDisponibles;
 	private JLabel labelAeroDestino;
 	private JLabel lblNewLabelFotoAvion;
 	private String tipo;
-	private boolean visibility = false;
 
 	/**
 	 * Create the dialog.
@@ -56,12 +56,14 @@ public class FlightInformation extends JDialog implements ActionListener, ItemLi
 	public FlightInformation() 
 	{
 		tipo = "BUSQUEDA";
-        setVisible(visibility);
+        setVisible(true);
 		setBounds(100, 100, 703, 508);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		lblAeroOrigen = new JLabel("");
 		lblAeroOrigen.setBorder(new TitledBorder(null, "Origen", TitledBorder.LEFT, TitledBorder.TOP, null, null));
@@ -212,6 +214,8 @@ public class FlightInformation extends JDialog implements ActionListener, ItemLi
 		lblNewLabelFotoAvion.setBounds(281, 241, 390, 196);
 		contentPanel.add(lblNewLabelFotoAvion);
 		
+		flightSearch = new FlightSearch(this);
+		
 	}
 
     
@@ -227,6 +231,8 @@ public class FlightInformation extends JDialog implements ActionListener, ItemLi
 		ComboBoxModel<Vuelo> cb = new DefaultComboBoxModel<Vuelo>(vuelos);
 		comboBoxVuelosDisponibles.setModel(cb);
 	}
+	
+	
 	public void actualizarinfo(Vuelo v)
 	{
 		//lblAeroOrigen
@@ -254,16 +260,26 @@ public class FlightInformation extends JDialog implements ActionListener, ItemLi
 
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		// TODO Auto-generated method stub
-		
 	}
-
-
 
 	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
+	public void itemStateChanged(ItemEvent e) 
+	{
+		if(e.getSource().equals(comboBoxVuelosDisponibles))
+		{
+			if (e.getStateChange() == ItemEvent.SELECTED) 
+			{
+				Vuelo item = (Vuelo) e.getItem(); //→ Año
+				if(item!=null)
+				{
+					actualizarinfo(item);
+				}
+			}
+		}
 		
 	}
+	
 }

@@ -1,6 +1,7 @@
 package com.llama.tech.airports.backbone;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.llama.tech.utils.list.Lista;
@@ -10,7 +11,7 @@ import com.llama.tech.utils.list.LlamaIterator;
 /**
  * Esta clase modela un aeropuerto
  */
-public class Aeropuerto {
+public class Aeropuerto implements Serializable {
 	
 	/**
 	 * Este atributo representa el codigo IATA unico del aeropuerto
@@ -179,18 +180,23 @@ public class Aeropuerto {
 	 * Borra de la lista de vuelos todos lo scuelos con el codigo dado por parametro
 	 * @param codigo codigo de vuelos a borrar
 	 */
-	public void removeVuelo(String codigo)
+	public boolean removeVuelo(String codigo)
 	{
 		LlamaIterator<Vuelo> it = vuelos.iterator();
-		
+		boolean ret = false;
 		int pos=0;
 		while(it.hasNext())
 		{
 			Vuelo v = it.next();
 			if(v.getCodigo().equals(codigo))
+			{
 				vuelos.remove(pos);
+				ret=true;
+			}
 			pos++;
 		}
+		
+		return ret;
 	}
 	
 	/**

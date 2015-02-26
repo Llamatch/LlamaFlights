@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,11 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import com.llama.tech.airports.backbone.Aeropuerto;
 import com.llama.tech.airports.backbone.ISistemaConsulta;
 import com.llama.tech.airports.backbone.SistemaConsulta;
+import com.llama.tech.airports.backbone.Vuelo;
 import com.llama.tech.utils.dict.Dictionary;
 import com.llama.tech.utils.dict.LlamaDict;
 import com.llama.tech.utils.dict.LlamaDict.UnhashableTypeException;
+import com.llama.tech.utils.list.Lista;
 
 public class MainGUI extends JFrame 
 {
@@ -28,7 +32,7 @@ public class MainGUI extends JFrame
 	{
 		PERIOD_CHOOSER, AIRPORT_SEARCH, FLIGHT_SEARCH, AIRPORT_COMPARISON, DIRECT_FLIGHT; 
 	}
-	
+
 	private static final long serialVersionUID = -7674397543833453767L;
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
@@ -36,6 +40,7 @@ public class MainGUI extends JFrame
 	private OptionsPanel optionsPanel;
 	private ISistemaConsulta flightDataBase;
 	private PeriodChooser periodChooser;
+	private AirportInformation airportInfo;
 	private Dictionary<WindowState, Boolean> states = new LlamaDict<WindowState, Boolean>(6); 
 	private final static String DIR_ARCHIVO = "./data/persistence/";
 	public final static File ARCHIVO = new File(DIR_ARCHIVO+"info.flight");
@@ -43,6 +48,7 @@ public class MainGUI extends JFrame
 	private boolean initialized = false;
 	private int year;
 	private int month;
+	private FlightInformation flightInfo;
 
 	/**
 	 * Launch the application.
@@ -78,22 +84,23 @@ public class MainGUI extends JFrame
 				e.printStackTrace();
 			}
 		}
-		
+
 		try
 		{
 			ISistemaConsulta temp = cargar();
 			if(temp != null)
 			{
 				flightDataBase = temp;
+				flightDataBase.reInitializeConnection();
 				initialization = false;
 				initialized = true;
 			}
 		}
 		catch(Exception e)
 		{
-			
+
 		}
-		
+
 		if(initialization)
 		{
 			try {
@@ -105,6 +112,7 @@ public class MainGUI extends JFrame
 			periodChooser = new PeriodChooser(this);
 			periodChooser.setVisible(true);
 			periodChooser.setAlwaysOnTop(true);
+			periodChooser.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			try 
 			{
 				flightDataBase = new SistemaConsulta(month, year);
@@ -116,9 +124,9 @@ public class MainGUI extends JFrame
 			//periodChooser.setVisible(false);
 			initialization = false;
 			initialized = true;
-			
+
 		}
-		
+
 		setTitle("LlamaFly");
 		setBounds(100, 100, 708, 496);
 		contentPane = new JPanel();
@@ -135,11 +143,12 @@ public class MainGUI extends JFrame
 		optionsPanel = new OptionsPanel(this);
 		optionsPanel.setBounds(350, 136, 326, 253);
 		contentPane.add(optionsPanel);
+		System.out.println("Total: "+flightDataBase.getTotalVuelos());
 		LowerAdditionalInfoPanel lowerAdditionalInfoPanel = new LowerAdditionalInfoPanel(year, month, flightDataBase.getTotalVuelos());
 		lowerAdditionalInfoPanel.setBounds(12, 396, 664, 40);
 		contentPane.add(lowerAdditionalInfoPanel);
 	}
-	
+
 	@Override
 	public void dispose()
 	{
@@ -155,7 +164,7 @@ public class MainGUI extends JFrame
 		}
 		System.exit(0);
 	}
-	
+
 	public ISistemaConsulta cargar()
 	{
 		try {
@@ -175,7 +184,7 @@ public class MainGUI extends JFrame
 		}
 		return null;
 	}
-	
+
 	public void guardar(ISistemaConsulta is)
 	{
 		try{
@@ -184,21 +193,21 @@ public class MainGUI extends JFrame
 			oos.writeObject(is);
 			oos.close();
 			fos.close();
-					
+
 		}
 		catch(Exception e)
 		{
-			
+
 		}
 	}
-	
-	
+
+
 	public void setPeriod(int year, int month)
 	{
 		this.year = year;
 		this.month = month;
 	}
-	
+
 	public void cambiarTemporada()
 	{
 		//periodChooser.setVisible(true);
@@ -214,12 +223,12 @@ public class MainGUI extends JFrame
 				flightDataBase.cambiarTemporada(year, month);
 			} 
 			catch (IOException | UnhashableTypeException | SQLException e) {
-				
+
 				JOptionPane.showMessageDialog(this, "Hubo un problema cargando la información");
 			}
 		}
 	}
-	
+
 	public void setState(WindowState w, Boolean v)
 	{
 		try 
@@ -232,8 +241,53 @@ public class MainGUI extends JFrame
 			e.printStackTrace();
 		}
 	}
-	
 
+	public void buscarVuelo(String codigo)
+	{
+		Lista<Vuelo> vuelos = flightDataBase.buscarVuelo(codigo);
+		if(vuelos.isEmpty())
+			JOptionPane.showMessageDialog(this, "No se han encontrado vuelos. Verifique que el código es correcto");
+		else
+		{
+			flightInfo = new FlightInformation();
+			flightInfo.refrescarVentana(vuelos, "BUSQUEDA");
+		}
+	}
+
+	public void buscarAeropuerto(String codigo)
+	{
+		Aeropuerto air = flightDataBase.buscarAeropuerto(codigo);
+		if(air==null)
+			JOptionPane.showMessageDialog(this, "No se han encontrado aeropuertos. Verifique que el código es correcto");
+		else
+		{
+			airportInfo = new AirportInformation();
+			airportInfo.refrescarInfo(air);
+		}
+			
+	}
+
+	public void eliminarVuelo(String codigo) 
+	{
+		 boolean borro=flightDataBase.eliminarVuelo(codigo);
+		 
+		 if(borro)
+			 JOptionPane.showMessageDialog(this, "El vuelo se eliminó satisfactoriamente");
+		 else
+			 JOptionPane.showMessageDialog(this, "No se encontró el vuelo para eliminarlo");
+	}
 	
-	
+	public void buscarVuelosDirectos(String codigoOrigen, String codigoDestino, LocalDate fecha)
+	{
+
+		Lista<Vuelo> lista =flightDataBase.buscarVuelosDirectos(codigoOrigen, codigoDestino,fecha);
+		flightInfo = new FlightInformation();
+		flightInfo.refrescarVentana(lista, "BUSQUEDA");
+		
+		
+	}
+
+
+
+
 }

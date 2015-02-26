@@ -1,12 +1,14 @@
 package com.llama.tech.airports.backbone;
 
+import java.io.Serializable;
+
 import com.llama.tech.utils.list.Lista;
 import com.llama.tech.utils.list.LlamaArrayList;
 
 /**
  * Esta es la clase que modela una aerolinea
  */
-public class Aerolinea {
+public class Aerolinea implements Serializable{
 
 	/**
 	 * Este es el atributo que representa el codigo único de la areolina
@@ -63,7 +65,7 @@ public class Aerolinea {
 	 * Este método remueve todos los vuelos que tengan el codigo dato por parametro de la aerolinea
 	 * @param codigo Codigo de vuelos a eliminar. Recibe solo la parte numerica del codigo
 	 */
-	public void removeVuelo(String codigo)
+	public boolean removeVuelo(String codigo)
 	{
 
 
@@ -96,6 +98,8 @@ public class Aerolinea {
 				fin=medio-1;
 			}
 		}
+		
+		return borreAero;
 
 
 	}

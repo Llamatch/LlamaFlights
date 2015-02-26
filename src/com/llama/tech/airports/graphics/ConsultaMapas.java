@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -12,12 +13,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class ConsultaMapas 
+public class ConsultaMapas implements Serializable
 {
 
-	private static JLabel label;
+	//private static JLabel label;
+	/**
+	 * Este atributo mantiene la posición del color
+	 */
 	private static int posColor;
 
+	/**
+	 * Este metodo retorna el mapa de un aeropuerto con las coordenadas dadas por parametro
+	 * @param lat latitud
+	 * @param lon longitud
+	 * @return icono de la imagen generada desde el url
+	 * @throws MalformedURLException si la url tiene problemas
+	 * @throws IOException si hay problema accediendo a internet
+	 */
 	public static ImageIcon consultarMapaAeropuertoUnico(String lat, String lon) throws MalformedURLException, IOException
 	{
 		BufferedImage imagen = ImageIO.read(new URL("http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=512x512&maptype=roadmap\\&markers=size:mid%7Ccolor:red%7C"+lat+","+lon+"&sensor=false"));
@@ -26,6 +38,10 @@ public class ConsultaMapas
 
 	}
 
+	/**
+	 * Este metodo retorna un color para los marcadores 
+	 * @return Nombre del color
+	 */
 	private static String darColorAleatorio()
 	{
 		//		{black, brown, green, purple, yellow, blue, gray, orange, red, white}.
@@ -73,12 +89,18 @@ public class ConsultaMapas
 
 	}
 
+	/**
+	 * Este metodo reotrna una imagen con los marcadores de los aeropuertos con coordenadas dadas por paramtero
+	 * @param latlon coordenadas de aeropuertos latitug:longitud
+	 * @return Imagen con mapa
+	 * @throws MalformedURLException si hay problemas con la url
+	 * @throws IOException si hay problemas accediendo a internet
+	 */
 	public static ImageIcon consultarMultiplesAeropuertos(String[] latlon) throws MalformedURLException, IOException//lat lon en formato lat:lon
 	{
 		String direccion = "http://maps.googleapis.com/maps/api/staticmap?size=520x520&maptype=roadmap";
 		char c = 'A';
 		
-		//http://maps.googleapis.com/maps/api/staticmap?size=520x520&markers=color:black%7Clabel:A%7C63.259591,-144.667969&markers=size:mid%7Ccolor:brown%7Clabel:B%7C62.107733,-145.541936
 		for(String s : latlon)
 		{
 			StringBuilder ss = new StringBuilder();
@@ -97,32 +119,27 @@ public class ConsultaMapas
 		BufferedImage imagen = ImageIO.read(new URL(direccion));
 		ImageIcon ic = new ImageIcon(imagen);
 		return ic;
-		//		http://maps.googleapis.com/maps/api/staticmap?size=512x512&maptype=roadmap\
-		//			&markers=size:mid%7Ccolor:red%7CSan+Francisco,CA%7COakland,CA%7CSan+Jose,CA&sensor=false
-		//		
-		//		http://maps.googleapis.com/maps/api/staticmap?center=63.259591,-144.667969&zoom=6&size=400x400\
-		//			&markers=color:blue%7Clabel:S%7C62.107733,-145.541936&markers=size:tiny%7Ccolor:green%7CDelta+Junction,AK\
-		//			&markers=size:mid%7Ccolor:0xFFFF00%7Clabel:C%7CTok,AK&sensor=false" />
-	}
-
-	public static void main(String[] args) {
-
-		JFrame ventanis = new JFrame();
-		ventanis.setLayout(new BorderLayout());
-		ventanis.setSize(new Dimension(520,520));
-		ventanis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		String[] latlon = new String[]{63.259591+":"+-144.667969,58.107733+":"+-120.541936};
-		try {
-//			consultarMapaAeropuertoUnico(63.259591+"",-144.667969+"");
-			consultarMultiplesAeropuertos(latlon);
-			ventanis.add(label);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		ventanis.setVisible(true);
 
 	}
+
+//	public static void main(String[] args) {
+//
+//		JFrame ventanis = new JFrame();
+//		ventanis.setLayout(new BorderLayout());
+//		ventanis.setSize(new Dimension(520,520));
+//		ventanis.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		String[] latlon = new String[]{63.259591+":"+-144.667969,58.107733+":"+-120.541936};
+//		try {
+////			consultarMapaAeropuertoUnico(63.259591+"",-144.667969+"");
+//			consultarMultiplesAeropuertos(latlon);
+//			ventanis.add(label);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		ventanis.setVisible(true);
+//
+//	}
 
 }

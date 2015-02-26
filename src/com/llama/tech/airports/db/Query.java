@@ -1,5 +1,9 @@
 package com.llama.tech.airports.db;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,8 +14,9 @@ import java.util.Calendar;
 import com.llama.tech.airports.backbone.Aeropuerto;
 import com.llama.tech.utils.list.Lista;
 import com.llama.tech.utils.list.LlamaArrayList;
+import com.opencsv.CSVReader;
 
-public final class Query 
+public final class Query
 {
 	private final static String IP = "157.253.236.58";
 	private final static String PORT = "5432";
@@ -52,6 +57,11 @@ public final class Query
 //	retraso_seguridad
 //	retraso_tripulacion
 	
+	/**
+	 * Este es el constructor del Query. El hace el contacto con el database
+	 * @throws ClassNotFoundException si no se encuentra la clase
+	 * @throws SQLException si hay problemas accediendo al database
+	 */
 	public Query() throws ClassNotFoundException, SQLException
 	{
 		Class.forName("org.postgresql.Driver");
@@ -70,7 +80,10 @@ public final class Query
 		//
 	}
 	
-	
+	/**
+	 * Este metodo imprime la lista entera de aeropuertos origen
+	 * @throws SQLException si hay problemas accediendo la base de datos
+	 */
 	public void get_airportList() throws SQLException
 	{
 		
@@ -88,6 +101,13 @@ public final class Query
 		stmt.close();
 	}
 	
+	/**
+	 * Este metodo imprime los vuelos de un dia
+	 * @param year año consulta
+	 * @param month mes consulta
+	 * @param day dia consulta
+	 * @throws SQLException si hay problemas accediendo la base de datos
+	 */
 	public void get_flightsPerDay(String year, String month, String day) throws SQLException
 	{
 		Lista<String> l;
@@ -104,6 +124,13 @@ public final class Query
 		stmt.close();
 	}
 	
+	/**
+	 * Este metodo retorna una lista con todos los vuelos de un mes
+	 * @param year año consulta
+	 * @param month mes consulta
+	 * @return lista con vuelos del mes solicitado
+	 * @throws SQLException si hay problemas accediendo la base de datos
+	 */
 	public Lista<String> get_flightsPerMonth(String year, String month) throws SQLException
 	{
 
@@ -112,7 +139,7 @@ public final class Query
 //		String sql = String.format("SELECT dia, "
 //				+ "carrier, num_vuelo, origen, destino, distancia,'DepTime', "
 //				+ "cancelado FROM vuelos WHERE año = '%s' AND mes = '%s';", year, month);
-		
+		System.out.println("Fetching...");
 		String sql = String.format("SELECT dia, \"DepTime\", \"CRSDepTime\", \"ArrTime\", \"CRSArrTime\", "
 				+ "carrier, num_vuelo, \"TailNum\", origen, destino, distancia, "
 				+ "cancelado FROM vuelos WHERE año = '%s' AND mes = '%s';", year, month);
@@ -156,16 +183,20 @@ public final class Query
 			s.append(":");
 			s.append(rs.getString(12));
 			
-			System.out.println(s.toString());
+			//System.out.println(s.toString());
 			l.addAlFinal(s.toString());
 			count++;
 		}
-		System.out.println(count);
+		//System.out.println(count);
 		stmt.close();
 		
 		return l;
 	}
 	
+	/**
+	 * Este metodo cierra la conexión con la base de datos
+	 * @throws SQLException si hay problemas accediendo la base de datos
+	 */
 	public void close_connection() throws SQLException
 	{
 		System.out.print("Closing connection...");
@@ -173,19 +204,24 @@ public final class Query
 		System.out.print("Done!\n");
 	}
 	
-	
+	/**
+	 * Este main sirve para probar los metodos de query
+	 * @param args
+	 */
 	public static void main(String[] args) 
 	{
-		try {
+		try 
+		{
 			Query q = new Query();
-			//q.get_flightsPerMonth("2006", "2");
-			q.get_flightsPerDay(2007+"", 11+"", 22+"");
-			q.close_connection();
-		} catch (ClassNotFoundException | SQLException e) {
+			q.get_flightsPerMonth("2006", "3");
+		} 
+		catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 
 }
+

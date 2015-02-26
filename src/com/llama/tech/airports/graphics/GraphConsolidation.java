@@ -3,6 +3,7 @@ package com.llama.tech.airports.graphics;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,8 +14,15 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 
-public class GraphConsolidation 
+public class GraphConsolidation implements Serializable
 {
+	/**
+	 * Este metodo construye el gráfico comparando los traficos de vuelos
+	 * @param codes codigos de aeropuertos
+	 * @param proportions trafico de los aeropuertos
+	 * @param title titulo del grafico
+	 * @return Imagen con el grafico
+	 */
 	public static ImageIcon buildGraph(String[] codes, Double[] proportions, String title)
 	{
 		DefaultPieDataset dataset = new DefaultPieDataset();

@@ -1,5 +1,6 @@
 package com.llama.tech.airports.backbone;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.util.Calendar;
 /**
  * Esta clase modela un vuelo
  */
-public class Vuelo {
+public class Vuelo implements Serializable{
 	
 	/**
 	 * Este atributo representa el numero del vuelo

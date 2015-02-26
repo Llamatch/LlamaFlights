@@ -23,14 +23,18 @@ public class FlightSearch extends JDialog {
 	private JFormattedTextField formattedTextField_2;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
+	private FlightInformation flightInfo;
 	private JFormattedTextField formattedTextField;
 	private JDateChooser dateChooser;
 
 	/**
 	 * Create the dialog.
+	 * @param flightInformation 
 	 */
-	public FlightSearch() 
+	public FlightSearch(FlightInformation flightInformation) 
 	{
+		//super(flightInformation, ModalityType.APPLICATION_MODAL);
+		flightInfo = flightInformation;
 		setBounds(100, 100, 334, 249);
 		setTitle("Consultar Vuelo");
 		getContentPane().setLayout(new BorderLayout());

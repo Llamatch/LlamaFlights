@@ -149,15 +149,6 @@ public class PeriodChooser extends JDialog implements ActionListener
 		setVisible(true);
 	}
 	
-	@Override
-	public void dispose()
-	{
-		setModalityType(ModalityType.MODELESS);
-		setVisible(false);
-		main.setState(MainGUI.WindowState.PERIOD_CHOOSER, false);
-
-	}
-	
 	
 	
 }
