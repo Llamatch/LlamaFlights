@@ -180,9 +180,9 @@ public class AirportInformation extends JDialog implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.equals("CERRAR"))
-			dispose();
-		
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(e.getActionCommand().equals("CERRAR"))
+			super.dispose();	
 	}
 }

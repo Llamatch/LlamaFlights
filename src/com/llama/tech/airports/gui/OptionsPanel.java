@@ -18,6 +18,7 @@ public class OptionsPanel extends JPanel implements ActionListener
 	private JButton btnBuscarVuelosPor;
 	private JButton btnCambiarPeriodo;
 	private DirectFlightScheduleChooser flightChooser;
+	private ChartSelectorDialog flightChartSelector;
 	private MainGUI main;
 
 	/**
@@ -68,6 +69,10 @@ public class OptionsPanel extends JPanel implements ActionListener
 		if(e.getActionCommand().equals("DIRECT_FLIGHTS"))
 		{
 			flightChooser = new DirectFlightScheduleChooser(this);
+		}
+		else if(e.getActionCommand().equals("AIR_TRAFFIC"));
+		{
+			flightChartSelector = new ChartSelectorDialog(this); 
 		}
 		
 	}
