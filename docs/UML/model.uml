@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_l-z-0L1nEeSG2JAAR0d91Q" name="model">
   <packagedElement xmi:type="uml:Interface" xmi:id="_ckoG4L1oEeSG2JAAR0d91Q" name="LlamaArrayList"/>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_hYrEsL1oEeSG2JAAR0d91Q" name="Interface1"/>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_hYrEsL1oEeSG2JAAR0d91Q" name="Dictionary"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_C7-k0L2AEeSG2JAAR0d91Q" name="LlamaDict"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_D9AkAL2AEeSG2JAAR0d91Q" name="DictEntry"/>
 </uml:Model>

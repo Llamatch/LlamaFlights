@@ -46,8 +46,8 @@ public class MainGUI extends JFrame
 	public final static File ARCHIVO = new File(DIR_ARCHIVO+"info.flight");
 	private boolean initialization = true;
 	private boolean initialized = false;
-	private int year;
-	private int month;
+	private int year = -1;
+	private int month = -1;
 	private FlightInformation flightInfo;
 
 	/**
@@ -144,7 +144,8 @@ public class MainGUI extends JFrame
 		optionsPanel.setBounds(350, 136, 326, 253);
 		contentPane.add(optionsPanel);
 		System.out.println("Total: "+flightDataBase.getTotalVuelos());
-		LowerAdditionalInfoPanel lowerAdditionalInfoPanel = new LowerAdditionalInfoPanel(year, month, flightDataBase.getTotalVuelos());
+		LowerAdditionalInfoPanel lowerAdditionalInfoPanel;
+		lowerAdditionalInfoPanel = new LowerAdditionalInfoPanel(flightDataBase.getYear(), flightDataBase.getMonth(), flightDataBase.getTotalVuelos());
 		lowerAdditionalInfoPanel.setBounds(12, 396, 664, 40);
 		contentPane.add(lowerAdditionalInfoPanel);
 	}

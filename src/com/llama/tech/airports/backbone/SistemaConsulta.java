@@ -29,6 +29,11 @@ import com.opencsv.CSVReader;
 public class SistemaConsulta implements ISistemaConsulta, Serializable{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Este es el diccionario donde se guardan las areolinas del sistema
 	 */
 	private  Dictionary<String,Aerolinea> aerolineas;
@@ -390,8 +395,11 @@ public class SistemaConsulta implements ISistemaConsulta, Serializable{
 			System.out.println(line);
 			if(!line.split(",")[0].equals(""))
 			{
-				Aerolinea al = new Aerolinea(line.split(",")[0],line.split(",")[1]);
-				aerolineas.addEntry(line.split(",")[0], al);
+				if(line.split(",")[0]!=null)
+				{
+					Aerolinea al = new Aerolinea(line.split(",")[0],line.split(",")[1]);
+					aerolineas.addEntry(line.split(",")[0], al);
+				}
 			}
 
 		}
@@ -434,6 +442,18 @@ public class SistemaConsulta implements ISistemaConsulta, Serializable{
 	{
 		query = new Query();
 
+	}
+	
+	@Override
+	public int getYear()
+	{
+		return anho;
+	}
+	
+	@Override
+	public int getMonth()
+	{
+		return mes;
 	}
 
 }

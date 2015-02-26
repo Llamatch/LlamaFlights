@@ -107,4 +107,16 @@ public interface ISistemaConsulta extends Serializable
 	 * @throws ClassNotFoundException 
 	 */
 	public void reInitializeConnection() throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Retorna el año actual de consulta.
+	 * @return Año actual.
+	 */
+	public int getYear();
+
+	/**
+	 * Retorna el mes actual de la consulta
+	 * @return Mes actual
+	 */
+	public int getMonth();
 }
