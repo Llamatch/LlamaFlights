@@ -12,6 +12,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.llama.tech.utils.list.Lista;
+import com.llama.tech.utils.list.LlamaArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -24,25 +26,22 @@ import javax.swing.JTextField;
 
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class ChartSelectorDialog extends JDialog implements ItemListener
+public class ChartSelectorDialog extends JDialog implements ItemListener, ActionListener
 {
 
 	private final JPanel contentPanel = new JPanel();
 	private JPanel panel_1;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
 	private JTextField[] lbls = new JTextField[6];
 	private JComboBox<Integer> comboBox;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private OptionsPanel optionsPanel;
+	private int numSelected = 1; 
 
 	/**
 	 * Create the dialog.
@@ -75,11 +74,15 @@ public class ChartSelectorDialog extends JDialog implements ItemListener
 			{
 				btnNewButton = new JButton("Consultar");
 				btnNewButton.setBounds(86, 12, 117, 25);
+				btnNewButton.addActionListener(this);
+				btnNewButton.setActionCommand("GET");
 				panel.add(btnNewButton);
 			}
 			{
 				btnNewButton_1 = new JButton("Cancelar");
 				btnNewButton_1.setBounds(215, 12, 117, 25);
+				btnNewButton_1.addActionListener(this);
+				btnNewButton_1.setActionCommand("CANCEL");				
 				panel.add(btnNewButton_1);
 			}
 		}
@@ -210,7 +213,34 @@ public class ChartSelectorDialog extends JDialog implements ItemListener
 	@Override
 	public void itemStateChanged(ItemEvent e) 
 	{
-		// TODO Auto-generated method stub
+		if(e.getStateChange() == ItemEvent.SELECTED)
+		{
+			int index = (int) e.getItem();
+			numSelected = index;
+			
+			for(int i = 0; i < index+1; i++)
+			{
+				lbls[i].setEditable(true);
+			}
+			
+			for(int i = index+1; i < lbls.length; i++)
+			{
+				lbls[i].setEditable(false);
+			}
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		if(e.getActionCommand().equals("GET"))
+		{
+			Lista<String> airCodes = new LlamaArrayList<String>(6); 
+			for(int i = 0; i < numSelected; i++)
+			{
+				
+			}
+		}
 		
 	}
 
